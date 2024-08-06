@@ -1,5 +1,11 @@
 version: 0.2
 
+
+env:
+  variables:
+    NODE_OPTIONS: "--openssl-legacy-provider"
+    PORT: "8080"
+
 phases:
   install:
     runtime-versions:
@@ -26,7 +32,4 @@ cache:
   paths:
     - node_modules/**/*
 
-env:
-  variables:
-    NODE_OPTIONS: "--openssl-legacy-provider"
-    PORT: "8080"
+
