@@ -12,15 +12,16 @@ phases:
       nodejs: 20
     commands:
       - echo Installing dependencies...
-      - yarn install
-      - yarn upgrade
+      - npm install
+      - npm update
   build:
     commands:
       - echo Building the application...
-      - NODE_OPTIONS=--openssl-legacy-provider yarn build
+      - npm run build
   post_build:
     commands:
       - echo Post-build commands...
+      - npm install -g serve
       # Any additional commands you need can be added here
 
 artifacts:
