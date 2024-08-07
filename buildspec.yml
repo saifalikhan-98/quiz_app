@@ -11,6 +11,7 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
+      - npm cache clean --force
       - echo Installing dependencies...
       - npm install
       - npm update
