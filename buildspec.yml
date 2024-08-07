@@ -15,6 +15,7 @@ phases:
     commands:
       - echo Copying additional files...
       - cp -r ./src ./build/src
+      - cp -r public ./build/public
       - cp package.json ./build/
       - echo Additional files copied...
 
