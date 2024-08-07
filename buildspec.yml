@@ -6,16 +6,19 @@ phases:
       nodejs: 20
     commands:
       - echo Installing dependencies...
-      - npm install
+      - yarn install
   build:
     commands:
       - echo Building the application...
-      - npm run build
+      - yarn run build
   post_build:
     commands:
+      - echo Installing serve globally...
+      - yarn global add serve
       - echo Copying Procfile to build directory...
       - cp Procfile build/
-      - echo Installing serve globally...
+      - cp package.json build/
+     
    
       # Any additional commands you need can be added here
 
@@ -23,8 +26,5 @@ artifacts:
   files:
     - 'build/**/*'
     - 'build/Procfile'
+    - 'build/package.json'
   base-directory: build # The build directory where the compiled files are stored
-
-cache:
-  paths:
-    - 'node_modules/**/*'
