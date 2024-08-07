@@ -1,37 +1,15 @@
 version: 0.2
 
-
-env:
-  variables:
-    NODE_OPTIONS: "--openssl-legacy-provider"
-    PORT: "8080"
-
 phases:
   install:
     runtime-versions:
       nodejs: 20
     commands:
-      - npm cache clean --force
-      - echo Installing dependencies...
       - npm install
       - npm update
   build:
     commands:
       - echo Building the application...
       - npm run build
-  post_build:
-    commands:
-      - echo Post-build commands...
       - npm install -g serve
-      # Any additional commands you need can be added here
-
-artifacts:
-  files:
-    - '**/*'
-  base-directory: build # The build directory where the compiled files are stored
-
-cache:
-  paths:
-    - node_modules/**/*
-
 
