@@ -22,4 +22,8 @@ artifacts:
   base-directory: build # The build directory where the compiled files are stored
 
 
+cache:
+  paths:
+    - 'node_modules/**/*'
+
 
