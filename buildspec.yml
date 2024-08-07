@@ -17,7 +17,7 @@ phases:
       - yarn global add serve
       - echo Copying Procfile to build directory...
       - cp Procfile build/
-   
+      - echo Copying Procfile finished...
      
    
       # Any additional commands you need can be added here
@@ -25,6 +25,4 @@ phases:
 artifacts:
   files:
     - 'build/**/*'
-    - 'build/Procfile'
-    
   base-directory: build # The build directory where the compiled files are stored
