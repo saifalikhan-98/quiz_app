@@ -27,5 +27,5 @@ phases:
    
 artifacts:
   files:
-    - 'build/**/*'
+    - '**/*'
   base-directory: build # The build directory where the compiled files are stored
