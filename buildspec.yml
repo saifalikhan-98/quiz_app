@@ -16,14 +16,13 @@ phases:
       - echo Copying Procfile to build directory...
       - cp Procfile build/
       - echo Installing serve globally...
-      - npm install -g serve
+   
       # Any additional commands you need can be added here
 
 artifacts:
   files:
     - 'build/**/*'
     - 'build/Procfile'
-    - 'package.json'
   base-directory: build # The build directory where the compiled files are stored
 
 cache:
