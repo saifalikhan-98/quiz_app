@@ -15,13 +15,16 @@ phases:
     commands:
       - echo Installing serve globally...
       - yarn global add serve
+      - echo Listing files in the root directory before copying...
+      - ls -la
+      - echo Listing files in the build directory before copying...
+      - ls -la build
       - echo Copying Procfile to build directory...
       - cp Procfile build/
+      - echo Listing files in the build directory after copying...
+      - ls -la build
       - echo Copying Procfile finished...
-     
    
-      # Any additional commands you need can be added here
-
 artifacts:
   files:
     - 'build/**/*'
