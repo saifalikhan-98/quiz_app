@@ -18,6 +18,8 @@ phases:
 
 artifacts:
   files:
+    - 'package.json'
+    - 'Procfile'
     - '**/*'
   base-directory: build # The build directory where the compiled files are stored
 
