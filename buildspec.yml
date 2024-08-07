@@ -7,6 +7,7 @@ phases:
     commands:
       - echo Installing dependencies...
       - npm config set maxsockets 15  # Limit concurrent file operations
+      - npm install concurrently
       - npm install
   build:
     commands:
