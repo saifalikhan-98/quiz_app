@@ -17,6 +17,8 @@ phases:
       - cp -r ./src ./build/src
       - cp -r public ./build/public
       - cp package.json ./build/
+      - cp .babelrc ./build/
+      - cp babel.config.js ./build/
       - echo Additional files copied...
 
 artifacts:
