@@ -7,25 +7,23 @@ phases:
     commands:
       - echo Cleaning up previous installations...
       - rm -rf node_modules
-      - npm install -g npm@9
-      - echo Installing dependencies...
-      - npm install
-      - npm install @babel/plugin-proposal-private-property-in-object
+      - echo Installing global dependencies...
+      - yarn global add serve
+      - echo Verifying global installations...
+      - which serve
+      - serve --version
+      - echo Installing project dependencies...
+      - yarn install
       
   build:
     commands:
       - echo Building the application...
-      - npm run build
+      - yarn build
       
   post_build:
     commands:
       - echo Copying additional files...
-      - cp -r ./src ./build/src
-      - cp -r public ./build/public
-      - cp package.json ./build/
-      - cp .babelrc ./build/
-      - cp package-lock.json ./build/
-      - cp babel.config.js ./build/
+      - cp Procfile ./build/
       - echo Additional files copied...
 
 artifacts:
