@@ -12,7 +12,11 @@ phases:
       - echo Building the application...
       - yarn build
       
-
+  post_build:
+    commands:
+      - echo Copying additional files...
+      - cp Procfile ./build/
+      - echo Additional files copied...
 
 artifacts:
   files:
