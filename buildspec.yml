@@ -1,35 +1,38 @@
 version: 0.2
 
+env:
+  parameter-store:
+    AWS_DEFAULT_REGION: "ap-south-1"
+    AWS_ACCOUNT_ID: "231754098679"
+
 phases:
-  install:
-    runtime-versions:
-      nodejs: 20
+  pre_build:
     commands:
-      - echo Cleaning up previous installations...
-      - rm -rf node_modules
-      - npm install -g npm@9
-      - yarn cache clean
-      - echo Installing dependencies...
-      - yarn add @babel/plugin-proposal-private-property-in-object
-      - yarn install
-      
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
     commands:
-      - echo Building the application...
-      - yarn build
-      
+      - echo Skipping build since we are using a pre-built Docker image from ECR...
   post_build:
     commands:
-      - echo Copying additional files...
-      - cp -r ./src ./build/src
-      - cp -r public ./build/public
-      - cp package.json ./build/
-      - cp .babelrc ./build/
-      - cp yarn.lock ./build/
-      - cp babel.config.js ./build/
-      - echo Additional files copied...
+      - echo Creating Dockerrun.aws.json file...
+      - |
+        cat <<EOF > Dockerrun.aws.json
+        {
+          "AWSEBDockerrunVersion": "1",
+          "Image": {
+            "Name": "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/test-ecr-flow:latest",
+            "Update": "true"
+          },
+          "Ports": [
+            {
+              "ContainerPort": 8080
+            }
+          ]
+        }
+        EOF
+      - echo Dockerrun.aws.json file created.
 
 artifacts:
   files:
-    - '**/*'
-  base-directory: build # The build directory where the compiled files are stored
+    - Dockerrun.aws.json
