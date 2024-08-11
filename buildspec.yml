@@ -1,46 +1,34 @@
 version: 0.2
 
-env:
-  variables:
-    AWS_DEFAULT_REGION: "ap-south-1"
-    AWS_ACCOUNT_ID: "231754098679"
-
 phases:
   install:
+    runtime-versions:
+      nodejs: 20
     commands:
-      - echo Installing Docker...
-      - apt-get update -y
-      - apt-get install -y docker.io
-      - systemctl start docker
-      - docker --version # Verify Docker installation
-  pre_build:
-    commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - echo Cleaning up previous installations...
+      - rm -rf node_modules
+      - npm install -g npm@9
+      - echo Installing dependencies...
+      - npm install
+      - npm install @babel/plugin-proposal-private-property-in-object
+      
   build:
     commands:
-      - echo Skipping build since we are using a pre-built Docker image from ECR...
+      - echo Building the application...
+      - npm run build
+      
   post_build:
     commands:
-      - echo Creating Dockerrun.aws.json file...
-      - |
-        cat <<EOF > Dockerrun.aws.json
-        {
-          "AWSEBDockerrunVersion": "1",
-          "Image": {
-            "Name": "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/test-ecr-flow:latest",
-            "Update": "true"
-          },
-          "Ports": [
-            {
-              "ContainerPort": 8080
-            }
-          ]
-        }
-        EOF
-      - echo Dockerrun.aws.json file created.
-
+      - echo Copying additional files...
+      - cp -r ./src ./build/src
+      - cp -r public ./build/public
+      - cp package.json ./build/
+      - cp .babelrc ./build/
+      - cp package-lock.json ./build/
+      - cp babel.config.js ./build/
+      - echo Additional files copied...
 
 artifacts:
   files:
-    - Dockerrun.aws.json
+    - '**/*'
+  base-directory: build # The build directory where the compiled files are stored
