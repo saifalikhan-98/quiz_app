@@ -11,11 +11,12 @@ phases:
       - yarn cache clean
       - echo Installing dependencies...
       - yarn install
+      - yarn add @babel/plugin-proposal-private-property-in-object
   build:
     commands:
       - echo Building the application...
       - yarn build
-      - yarn add @babel/plugin-proposal-private-property-in-object
+      
   post_build:
     commands:
       - echo Copying additional files...
