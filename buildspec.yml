@@ -5,14 +5,6 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      - echo Cleaning up previous installations...
-      - rm -rf node_modules
-      - echo Installing global dependencies...
-      - yarn global add serve
-      - echo Verifying global installations...
-      - which serve
-      - serve --version
-      - echo Installing project dependencies...
       - yarn install
       
   build:
