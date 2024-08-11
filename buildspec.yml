@@ -7,6 +7,7 @@ phases:
     commands:
       - echo Cleaning up previous installations...
       - rm -rf node_modules
+      - npm install -g npm@9
       - yarn cache clean
       - echo Installing dependencies...
       - yarn install
