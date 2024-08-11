@@ -6,6 +6,13 @@ env:
     AWS_ACCOUNT_ID: "231754098679"
 
 phases:
+  install:
+    commands:
+      - echo Installing Docker...
+      - yum update -y
+      - yum install -y docker
+      - service docker start
+      - docker --version # Verify Docker installation
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
