@@ -10,8 +10,9 @@ phases:
       - npm install -g npm@9
       - yarn cache clean
       - echo Installing dependencies...
-      - yarn install
       - yarn add @babel/plugin-proposal-private-property-in-object
+      - yarn install
+      
   build:
     commands:
       - echo Building the application...
