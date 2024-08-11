@@ -5,13 +5,16 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
+      - echo Cleaning up previous installations...
+      - rm -rf node_modules
+      - yarn cache clean
       - echo Installing dependencies...
       - yarn install
   build:
     commands:
       - echo Building the application...
       - yarn build
-      - yarn add --dev @babel/plugin-proposal-private-property-in-object
+      - yarn add @babel/plugin-proposal-private-property-in-object
   post_build:
     commands:
       - echo Copying additional files...
@@ -19,6 +22,7 @@ phases:
       - cp -r public ./build/public
       - cp package.json ./build/
       - cp .babelrc ./build/
+      - cp yarn.lock ./build/
       - cp babel.config.js ./build/
       - echo Additional files copied...
 
