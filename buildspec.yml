@@ -1,7 +1,7 @@
 version: 0.2
 
 env:
-  parameter-store:
+  variables:
     AWS_DEFAULT_REGION: "ap-south-1"
     AWS_ACCOUNT_ID: "231754098679"
 
@@ -32,6 +32,7 @@ phases:
         }
         EOF
       - echo Dockerrun.aws.json file created.
+
 
 artifacts:
   files:
