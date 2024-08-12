@@ -5,6 +5,8 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
+      - echo Cleaning up previous installations...
+      - echo Installing dependencies...
       - yarn install
       
   build:
@@ -15,7 +17,12 @@ phases:
   post_build:
     commands:
       - echo Copying additional files...
-      - cp Procfile ./build/
+      - cp -r ./src ./build/src
+      - cp -r public ./build/public
+      - cp package.json ./build/
+      - cp .babelrc ./build/
+      - cp package-lock.json ./build/
+      - cp babel.config.js ./build/
       - echo Additional files copied...
 
 artifacts:
