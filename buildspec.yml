@@ -2,29 +2,39 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 20
     commands:
-      - echo Cleaning up previous installations...
-      - echo Installing dependencies...
-      - yarn install
-      
+      - echo Installing Docker...
+      - yum update -y
+      - yum install -y docker
+      - service docker start
+      - docker --version # Verify Docker installation
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   build:
     commands:
-      - echo Building the application...
-      - yarn build
-      
+      - echo Skipping build since we are using a pre-built Docker image from ECR...
   post_build:
     commands:
-      - echo Copying additional files...
-      - cp -r ./src ./build/src
-      - cp -r public ./build/public
-      - cp package.json ./build/
-      - cp .babelrc ./build/
-      - cp babel.config.js ./build/
-      - echo Additional files copied...
+      - echo Creating Dockerrun.aws.json file...
+      - |
+        cat <<EOF > Dockerrun.aws.json
+        {
+          "AWSEBDockerrunVersion": "1",
+          "Image": {
+            "Name": "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/test-ecr-flow:latest",
+            "Update": "true"
+          },
+          "Ports": [
+            {
+              "ContainerPort": 8080
+            }
+          ]
+        }
+        EOF
+      - echo Dockerrun.aws.json file created.
 
 artifacts:
   files:
-    - '**/*'
-  base-directory: build # The build directory where the compiled files are stored
+    - Dockerrun.aws.json
